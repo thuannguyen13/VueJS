@@ -1,0 +1,57 @@
+*, *::after, *::before {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif; }
+
+.example {
+  width: calc( 100% - 40px);
+  padding: 20px;
+  background-color: #949494;
+  margin: 20px;
+  border-radius: 5px; }
+
+.button {
+  padding: 10px; }
+
+.box {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #eee; }
+
+#effect {
+  background-color: yellow; }
+
+.highlight {
+  width: 60px;
+  height: 60px; }
+
+.shrink {
+  width: 20px;
+  height: 20px; }
+
+.yellow-text {
+  color: yellow; }
+
+.bold {
+  font-weight: 700; }
+
+.red {
+  background-color: red; }
+
+.green {
+  background-color: green; }
+
+.blue {
+  background-color: blue; }
+
+.blur {
+  opacity: 0.3; }
+
+.progress {
+  height: 30px;
+  width: 20px; }
+
+.long {
+  width: 100%; }

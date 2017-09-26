@@ -8,9 +8,40 @@
     <script src="script/myScript.js"></script>
   </head>
   <body>
-    <div id="app">
-      <p>{{message}}</p>
-    </div>
+    <!-- EXCERCISE-->
+    <div id="exercise">
+      <!-- 1) Start the Effect with the Button. The Effect should alternate the "highlight" or "shrink" class on each new setInterval tick (attach respective class to the div with id "effect" below) -->
+      <div class="example">example 1
+        <button class="button" @click="startEffect">Start Effect</button>
+        <div id="effect" :class="vfx"></div>
+      </div>
+      <!-- 2) Create a couple of CSS classes and attach them via the array syntax -->
+      <div class="example">example 2
+        <div :class="['yellow-text', 'bold']">I got no class :(</div>
+      </div>
+
+      <!-- 3) Let the user enter a class (create some example classes) and attach it -->
+      <div class="example">example 3
+        <input type="text" v-model="inputClass">
+        <div :class="inputClass"></div>
+      </div>
+      <!-- 4) Let the user enter a class and enter true/ false for another class (create some example classes) and attach the classes -->
+      <div class="example">
+        <input type="text" v-model='userClass'>
+        <input type="text" v-model='isVisible'>
+        <div :class="[{'blur': !isVisible}, userClass]"></div>
+      </div>
+      <!-- 5) Repeat 3) but now with values for styles (instead of class names). Attach the respective styles.  -->
+      <div class="example">
+        <input type="text" v-model="inputClass2">
+        <div class="box" :style="{'background-color' : inputClass2}"></div>
+      </div>
+      <!-- 6) Create a simple progress bar with setInterval and style bindings. Start it by hitting the below button. -->
+      <div class="example">
+        <button @click="startProgress">Start Progress</button>
+        <div class="progress blue" :class="{long : finish}"></div>
+      </div>
+  </div>
   </body>
 
 </html>

@@ -39,6 +39,16 @@
         </template>
 
       </div>
+      <!-- log -->
+
+      <div class="log" v-if="turns.length > 0">
+        <ul>
+          <li v-for="turn in turns"
+          :class="{'text-red': !turn.isPlayer, 'text-green': turn.isPlayer}">
+            {{turn.text}}
+          </li>
+        </ul>
+      </div>
 
   </div>
   </body>

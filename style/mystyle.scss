@@ -1,41 +1,75 @@
 @import 'normalize';
 @import 'varibles';
 @import 'ulti';
+@import 'mixin';
 
 
 // =======================
 
-.health {
-  font-size: 0;
+body {
+  background-color: $color-bg;
 }
 
-.health-wrapper {
-  font-size: 16px;
-  width: 50%;
-  background-color: $color-bg;
-  margin: 0;
+#battleGround {
+  padding: 0 10%;
+}
 
-  &-bar {
+.health {
+  font-size: 0;
+  padding: 20px;
+  margin: 20px;
+  background-color: $color-frame;
+
+  @include drop-shadow();
+  @include border-radius(5px);
+
+  .health-wrapper {
+    font-size: 16px;
     width: 50%;
-    height: 50px;
-    transition: 500ms;
+    background-color: $color-bg;
+    margin: 0;
 
-    &#player {
-      background-color: $playerHealth;
+    &-bar {
+      width: 50%;
+      height: 50px;
+      transition: 500ms;
+
+      &#player {
+        background-color: $playerHealth;
+      }
+
+      &#monster {
+        background-color: $monsterHealth;
+      }
     }
 
-    &#monster {
-      background-color: $monsterHealth;
-    }
   }
-
 }
 
 .command {
-  width: 100%;
-  height: 200px;
+  width: calc(100% - 40px);
+  padding: 20px;
+  background-color: $color-frame;
+  margin: 20px;
+  @include border-radius(5px);
+  @include drop-shadow();
 
   button {
-    padding: 40px;
+    cursor: pointer;
+    width: 100%;
+    padding: 20px;
   }
+}
+
+.log {
+
+  height: 400px;
+  width: calc(100% - 40px);
+  overflow-y: scroll;
+  background-color: $color-frame;
+  padding: 20px;
+  color: white;
+  margin: 20px;
+  @include border-radius(5px);
+  @include drop-shadow();
 }

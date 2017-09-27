@@ -1,0 +1,32 @@
+
+*, *::after, *::before {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+.text-green {
+  color: lightgreen;
+}
+
+.text-red {
+  color: red;
+}
+
+.text-white {
+  color: white;
+}
+
+.flex {
+  display: flex;
+}
+
+.centered {
+
+  justify-content: center;
+  align-items: center;
+}

@@ -11,31 +11,29 @@ var vm1 = new Vue({
       displayMsg: '',
   		playerHealth: 100,
   		monsterHealth: 100,
-      meterWidth: 1,
       healthFactor: 1,
       damageFactor: 1,
-      maxDamage: 50,
-      minDamage: 30,
+      maxDamage: 10,
+      minDamage: 0,
       spellCount : 3,
       castSpell : true,
       gameIsRunning: false,
-      turns: []
+      turns: [] // for dislay log
   	},
-    watch : {
-      gameIsRunning : function(){
-          console.log(this.gameIsRunning != this.gameIsRunning ? 'Game Over' : "let's Start");
-      },
 
+    watch : {
+      // limit player's Spell count
       spellCount : function(){
         if(this.spellCount === 0){
           this.castSpell = false;
         }
       },
-
+      // limit player's Hitpoint to 100;
       playerHealth : function(){
         this.playerHealth > 100 ? this.playerHealth = 100 : '';
       }
     },
+
     computed: {
       // check if condition are met to end the game
       combatWatch : function(){
@@ -48,18 +46,12 @@ var vm1 = new Vue({
         }
       }
     },
+
   	methods: {
 
       // game control
       startGame : function(){
         this.gameIsRunning = true;
-      },
-
-      resizeMeter : function(event){
-        var meter = document.getElementsByClassName('health-wrapper-bar');
-        var meterWidth = meter.getBoundingClientRect();
-        this.meterWidth = (meterWidth.width / this.monsterHealth) * 100;
-        console.log(meterWidth.width);
       },
 
       removeMsg : function(){
@@ -74,7 +66,6 @@ var vm1 = new Vue({
         this.spellCount = 3;
         this.castSpell = true;
         this.turns = [];
-          setTimeout(() => { this.removeMsg }, 2000);
       },
 
       nextLevel : function(){
@@ -84,7 +75,6 @@ var vm1 = new Vue({
         this.spellCount = 3;
         this.castSpell = true;
         this.turns = [];
-        setTimeout(() => { this.removeMsg }, 2000);
       },
 
       // calculate damage
@@ -102,68 +92,52 @@ var vm1 = new Vue({
           MonsAttackMsg: 'Monster attack Hero - ',
         };
 
-        if(unit === 0){
-          unit = message.Miss;
-        }
+        unit === 0 ? unit = message.Miss : unit;
 
         if(isUser == true){
           switch (actionType){
             case "attack":
-              this.turns.unshift({
-                isPlayer: true,
-                text: message.HeroAttackMsg + unit
-              });
+              this.turns.unshift({isPlayer: true, text: message.HeroAttackMsg + unit});
               break;
             case "spell":
-              this.turns.unshift({
-                isPlayer: true,
-                text: message.HeroSpellMsg + unit
-              });
+              this.turns.unshift({isPlayer: true, text: message.HeroSpellMsg + unit});
               break;
             case "heal":
-              this.turns.unshift({
-                isPlayer: true,
-                text: message.HeroHealMsg + unit
-              });
+              this.turns.unshift({isPlayer: true, text: message.HeroHealMsg + unit});
+              break;
           }
         } else {
-          this.turns.unshift({
-            isPlayer: false,
-            text: message.MonsAttackMsg + unit
-          });
+          this.turns.unshift({isPlayer: false, text: message.MonsAttackMsg + unit});
         }
       },
 
       // player control
       monsterAttack : function(){
         var damage = this.calculateDamage();
-        this.displayLog(false, 'attack', damage);
         this.playerHealth -= damage;
+        this.displayLog(false, 'attack', damage);
       },
-
 
   		playerAttack : function(){
         var damage = this.calculateDamage();
-        this.displayLog(true, 'attack', damage);
         this.monsterHealth -= damage;
+        this.displayLog(true, 'attack', damage);
   		},
 
       heal : function(){
         var health = this.calculateDamage();
+        this.monsterAttack();
         this.playerHealth += health;
         this.displayLog(true, 'heal', health);
-        this.monsterAttack();
       },
 
       spell : function(){
         var damage = this.calculateDamage() * 1.5;
-        this.monsterHealth -= damage;
         this.monsterAttack();
         this.spellCount--;
+        this.monsterHealth -= damage;
         this.displayLog(true, 'spell', damage);
       }
-
   	}
   });
-
 });

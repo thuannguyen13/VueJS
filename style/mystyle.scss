@@ -14,13 +14,26 @@ body {
   padding: 0 10%;
 }
 
-.health {
-  font-size: 0;
+.frame {
   padding: 20px;
   margin: 20px;
   background-color: $color-frame;
+}
 
-  @include drop-shadow();
+.level {
+  @include drop-shadow(rgba(61, 61, 61, 0.2));
+  @include border-radius(5px);
+  position: relative;
+  z-index: -2;
+  flex-flow: column;
+}
+
+.health {
+  position: relative;
+  z-index: -1;
+  font-size: 0;
+
+  @include drop-shadow(rgba(61, 61, 61, 0.2));
   @include border-radius(5px);
 
   .health-wrapper {
@@ -34,12 +47,14 @@ body {
       height: 50px;
       transition: 500ms;
 
-      &#player {
+    &#player {
         background-color: $playerHealth;
+        @include drop-shadow(rgba(61, 255, 139, 0.2));
       }
 
       &#monster {
         background-color: $monsterHealth;
+        @include drop-shadow(rgba(255, 103, 103, 0.2));
       }
     }
 
@@ -48,28 +63,33 @@ body {
 
 .command {
   width: calc(100% - 40px);
-  padding: 20px;
-  background-color: $color-frame;
-  margin: 20px;
   @include border-radius(5px);
-  @include drop-shadow();
+  @include drop-shadow(rgba(61, 61, 61, 0.2));
 
   button {
     cursor: pointer;
     width: 100%;
     padding: 20px;
+    background-color: white;
+    border: 0;
+    transition: background-color 500ms;
+    @include border-radius(5px);
+
+    &:hover {
+      background-color: $button-hover-color;
+    }
+
+    &:active {
+      background-color: $button-active-color;
+    }
   }
 }
 
 .log {
-
   height: 400px;
   width: calc(100% - 40px);
   overflow-y: scroll;
-  background-color: $color-frame;
-  padding: 20px;
   color: white;
-  margin: 20px;
   @include border-radius(5px);
   @include drop-shadow();
 }

@@ -1,13 +1,24 @@
 document.addEventListener('DOMContentLoaded', function(){
-  new Vue({
+
+var vm1 = new Vue({
   	el: '#battleGround',
   	data: {
+      gameLvl: 1,
+      gameMsg: {
+        playerWonMsg: 'You Won, *must be lucky*',
+        monsterWonMsg: 'You Lose, Terrible!'
+      },
+      displayMsg: '',
   		playerHealth: 100,
   		monsterHealth: 100,
-      spellCount : 2,
+      meterWidth: 1,
+      healthFactor: 1,
+      damageFactor: 1,
+      maxDamage: 50,
+      minDamage: 30,
+      spellCount : 3,
       castSpell : true,
       gameIsRunning: false,
-      missChance:'',
       turns: []
   	},
     watch : {
@@ -29,11 +40,11 @@ document.addEventListener('DOMContentLoaded', function(){
       // check if condition are met to end the game
       combatWatch : function(){
         if(this.playerHealth <= 0){
-          alert('Monster Win!');
+          this.displayMsg = this.gameMsg.monsterWonMsg;
           this.resetGame();
         }else if(this.monsterHealth <= 0) {
-          alert('Player Win!');
-          this.resetGame();
+          this.displayMsg = this.gameMsg.playerWonMsg;
+          this.nextLevel();
         }
       }
     },
@@ -44,50 +55,84 @@ document.addEventListener('DOMContentLoaded', function(){
         this.gameIsRunning = true;
       },
 
+      resizeMeter : function(event){
+        var meter = document.getElementsByClassName('health-wrapper-bar');
+        var meterWidth = meter.getBoundingClientRect();
+        this.meterWidth = (meterWidth.width / this.monsterHealth) * 100;
+        console.log(meterWidth.width);
+      },
+
+      removeMsg : function(){
+          this.displayMsg = '';
+      },
+
       resetGame : function(){
         this.gameIsRunning = false;
+        this.gameLvl = 1;
+        this.damageFactor = 1;
         this.playerHealth = this.monsterHealth = 100;
-        this.spellCount = 2;
+        this.spellCount = 3;
         this.castSpell = true;
         this.turns = [];
+          setTimeout(() => { this.removeMsg }, 2000);
+      },
+
+      nextLevel : function(){
+        this.gameLvl += 1;
+        this.damageFactor += 0.2;
+        this.playerHealth = this.monsterHealth = 100;
+        this.spellCount = 3;
+        this.castSpell = true;
+        this.turns = [];
+        setTimeout(() => { this.removeMsg }, 2000);
       },
 
       // calculate damage
 
       calculateDamage : function(){
-        return Math.round(Math.random() * 10);
+        return Math.floor(Math.round(Math.random() * (this.maxDamage * this.damageFactor)) + (this.minDamage * this.damageFactor)) ;
       },
 
       displayLog : function(isUser, actionType, unit){
+        var message = {
+          Miss : 'MISS',
+          HeroAttackMsg: 'Hero Attack Monster - ',
+          HeroHealMsg  : 'Hero Heal himself - ',
+          HeroSpellMsg : 'Hero Cast Spell - ',
+          MonsAttackMsg: 'Monster attack Hero - ',
+        };
+
+        if(unit === 0){
+          unit = message.Miss;
+        }
+
         if(isUser == true){
           switch (actionType){
             case "attack":
               this.turns.unshift({
                 isPlayer: true,
-                text: 'Hero Attack Monster -' + unit
+                text: message.HeroAttackMsg + unit
               });
               break;
             case "spell":
               this.turns.unshift({
                 isPlayer: true,
-                text: 'Hero Attack Monster with "Fire Ball" - ' + unit
+                text: message.HeroSpellMsg + unit
               });
               break;
             case "heal":
               this.turns.unshift({
                 isPlayer: true,
-                text: 'Hero heal himself - ' + unit
+                text: message.HeroHealMsg + unit
               });
           }
         } else {
           this.turns.unshift({
             isPlayer: false,
-            text: 'Monster attack Hero - ' + unit
+            text: message.MonsAttackMsg + unit
           });
         }
       },
-
-
 
       // player control
       monsterAttack : function(){
@@ -95,6 +140,7 @@ document.addEventListener('DOMContentLoaded', function(){
         this.displayLog(false, 'attack', damage);
         this.playerHealth -= damage;
       },
+
 
   		playerAttack : function(){
         var damage = this.calculateDamage();
@@ -105,7 +151,6 @@ document.addEventListener('DOMContentLoaded', function(){
       heal : function(){
         var health = this.calculateDamage();
         this.playerHealth += health;
-        console.log('%c Player Health: ' + health, 'color: cyan');
         this.displayLog(true, 'heal', health);
         this.monsterAttack();
       },
@@ -120,4 +165,5 @@ document.addEventListener('DOMContentLoaded', function(){
 
   	}
   });
+
 });

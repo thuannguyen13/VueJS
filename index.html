@@ -4,31 +4,37 @@
     <meta charset="utf-8">
     <title>VueJS Pratice</title>
     <link rel="stylesheet" href="style/mystyle.css">
-    <script src="script/vue.js"></script>
-    <script src="script/myScript.js"></script>
   </head>
   <body>
     <div id="battleGround">
+      <!-- leve -->
+      <div class="frame level flex centered">
+        <template>
+          <h3>Game level : {{gameLvl}}</h3>
+          <h3>{{displayMsg}}</h3>
+        </template>
+
+      </div>
       <!-- health bar -->
-    	<div class="health flex">
+    	<div class="frame health flex">
     	  <div class="health-wrapper">
           <!-- <img src="images/hero.gif" alt=""> -->
           <div id="player" class="health-wrapper-bar flex centered text-white"
-              :style="{width: playerHealth + '%'}">{{playerHealth}}
+              :style="{width: playerHealth + '%'}">{{playerHealth}}%
           </div>
         </div>
         <div class="health-wrapper">
           <!-- <img src="images/monster.gif" alt=""> -->
           <div id="monster" class="health-wrapper-bar flex centered text-white"
-              :style="{width: monsterHealth + '%'}">{{monsterHealth}}
+              :style="{width: monsterHealth + '%'}">{{monsterHealth}}%
           </div>
         </div>
     	</div>
       <!-- control -->
-      <div class="command flex centered">
+      <div class="frame command flex centered">
 
         <template v-if="!gameIsRunning">
-          <button @click="startGame()">Start Fighting </button>
+          <button @click="startGame()">Start Fighting</button>
         </template>
 
         <template v-if="gameIsRunning">
@@ -40,8 +46,7 @@
 
       </div>
       <!-- log -->
-
-      <div class="log" v-if="turns.length > 0">
+      <div class="frame log" v-if="turns.length > 0">
         <ul>
           <li v-for="turn in turns"
           :class="{'text-red': !turn.isPlayer, 'text-green': turn.isPlayer}">
@@ -49,7 +54,8 @@
           </li>
         </ul>
       </div>
-
-  </div>
+    </div>
+    <script src="script/vue.js"></script>
+    <script src="script/myScript.js"></script>
   </body>
 </html>

@@ -2,6 +2,12 @@
   border-radius: $value;
 }
 
-@mixin drop-shadow(){
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+@mixin drop-shadow($color...){
+  box-shadow:
+  $color 0px 2px 2px,
+  $color 0px 4px 4px,
+  $color 0px 8px 8px,
+  $color 0px 16px 16px,
+  $color 0px 32px 32px,
+  $color 0px 64px 64px;
 }
